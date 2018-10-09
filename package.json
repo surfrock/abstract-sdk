@@ -22,7 +22,7 @@
     "doc": "jsdoc -c jsdoc.json",
     "mocha": "mocha",
     "nyc": "nyc mocha \"src/**/*.spec.ts\"",
-    "coverage": "npm run nyc | coveralls",
+    "coverage": "npm run nyc && nyc report --reporter=text-lcov | coveralls",
     "snyk": "snyk wizard",
     "test": "npm run check && npm run coverage",
     "tslint": "tslint --project tsconfig.json -c tslint.json --exclude \"**/*.spec.ts\" src/**/*.ts",
@@ -73,11 +73,11 @@
     "power-assert": "^1.6.1",
     "rimraf": "^2.6.2",
     "sinon": "^5.1.1",
-    "snyk": "^1.100.0",
+    "snyk": "^1.103.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-microsoft-contrib": "^5.2.1",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.2"
   },
   "dependencies": {
     "@motionpicture/mvtk-reserve-service": "^1.2.0",
