@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "check": "npm run tslint && nsp check",
+    "check": "npm run tslint",
     "clean": "rimraf ./lib \"npm-debug.log*\" ./doc ./.nyc_output",
     "doc": "jsdoc -c jsdoc.json",
     "mocha": "mocha",
@@ -67,7 +67,6 @@
     "jsdoc": "^3.5.5",
     "mocha": "^5.2.0",
     "nock": "^9.3.2",
-    "nsp": "^3.2.1",
     "nyc": "^12.0.2",
     "open": "0.0.5",
     "power-assert": "^1.6.1",
@@ -80,7 +79,7 @@
     "typescript": "^3.1.2"
   },
   "dependencies": {
-    "@motionpicture/mvtk-reserve-service": "^1.2.0",
+    "@motionpicture/mvtk-reserve-service": "^1.2.1",
     "debug": "^3.2.5",
     "http-status": "^1.1.2",
     "isomorphic-fetch": "^2.2.1",
