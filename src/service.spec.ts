@@ -40,10 +40,13 @@ describe('fetch()', () => {
         const response: any = { key: 'value' };
 
         const auth = new StubAuthClient();
-        const service = new Service({
-            auth: auth,
-            endpoint: API_ENDPOINT
-        });
+        const service = new Service(
+            {
+                auth: auth,
+                endpoint: API_ENDPOINT
+            },
+            { timeout: 10000 }
+        );
 
         sandbox.mock(service.options.auth).expects('fetch').once().resolves(response);
 
@@ -54,7 +57,7 @@ describe('fetch()', () => {
     });
 
     it('認証不要な場合、transporterが正常であれば、レスポンスを取得できるはず', async () => {
-        const response: any = { key: 'value' };
+        const response: any = JSON.stringify({ key: 'value' });
 
         const service = new Service({
             endpoint: API_ENDPOINT,
@@ -62,7 +65,7 @@ describe('fetch()', () => {
         });
 
         const result = await service.fetch(<any>{});
-        assert.deepEqual(result.body, response);
+        assert.deepEqual(await result.json(), JSON.parse(response));
         sandbox.verify();
     });
 
