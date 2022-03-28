@@ -48,7 +48,8 @@ describe('fetch()', () => {
                 .get('/uri')
                 .reply(statusCode, body);
 
-            const result = await transporter.fetch(`${API_ENDPOINT}/uri`, {}, {}).then(async (res) => res.json());
+            const result = await transporter.fetch(`${API_ENDPOINT}/uri`, {}, {})
+                .then(async (res) => res.json());
             assert.deepEqual(result, body);
             sandbox.verify();
             assert(scope.isDone());
@@ -79,7 +80,8 @@ describe('fetch()', () => {
                 .get('/uri')
                 .reply(statusCode, body);
 
-            const result = await transporter.fetch(`${API_ENDPOINT}/uri`, {}, {}).catch((err) => err);
+            const result = await transporter.fetch(`${API_ENDPOINT}/uri`, {}, {})
+                .catch((err) => err);
 
             assert(result instanceof Error);
             assert.equal((<RequestError>result).code, statusCode);
@@ -116,7 +118,8 @@ describe('fetch()', () => {
             .get('/uri')
             .reply(statusCode, body);
 
-        const result = await transporter.fetch(`${API_ENDPOINT}/uri`, {}, {}).catch((err) => err);
+        const result = await transporter.fetch(`${API_ENDPOINT}/uri`, {}, {})
+            .catch((err) => err);
         assert(result instanceof Error);
         assert.equal((<RequestError>result).code, statusCode);
         assert.equal((<RequestError>result).message, body);

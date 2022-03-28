@@ -1,7 +1,7 @@
 {
-  "name": "@movieticket/reserve-api-abstract-client",
+  "name": "@surfrock/abstract-sdk",
   "version": "1.1.0",
-  "description": "Movieticket Reserve API Abstract Client Library for Javascript",
+  "description": "Surfrock abstract SDK",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "files": [
@@ -23,7 +23,6 @@
     "mocha": "mocha",
     "nyc": "nyc mocha \"src/**/*.spec.ts\"",
     "coverage": "npm run nyc && nyc report --reporter=text-lcov | coveralls",
-    "snyk": "snyk wizard",
     "test": "npm run check && npm run coverage",
     "tslint": "tslint --project tsconfig.json -c tslint.json --exclude \"**/*.spec.ts\" src/**/*.ts",
     "preversion": "npm run clean && npm run build && npm test",
@@ -33,10 +32,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/movieticket/reserve-api-abstract-client.git"
+    "url": "https://github.com/surfrock/abstract-sdk.git"
   },
   "keywords": [
-    "movieticket"
+    "surfrock"
   ],
   "author": {
     "name": "Motionpicture co.,ltd."
@@ -56,6 +55,7 @@
     "@types/isomorphic-fetch": "0.0.35",
     "@types/mocha": "^5.2.5",
     "@types/nock": "^9.1.3",
+    "@types/node": "^10.17.60",
     "@types/open": "0.0.29",
     "@types/power-assert": "^1.5.0",
     "@types/qs": "^6.5.1",
@@ -65,19 +65,18 @@
     "http-server": "^0.10.0",
     "mocha": "^5.2.0",
     "nock": "^9.3.2",
-    "nyc": "^12.0.2",
+    "nyc": "15.1.0",
     "open": "0.0.5",
     "power-assert": "^1.6.1",
     "rimraf": "^2.6.2",
     "sinon": "^5.1.1",
-    "snyk": "^1.103.0",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "tslint-microsoft-contrib": "^5.2.1",
-    "typescript": "^3.1.2"
+    "ts-node": "10.7.0",
+    "tslint": "6.1.3",
+    "tslint-microsoft-contrib": "6.2.0",
+    "typescript": "4.6.3"
   },
   "dependencies": {
-    "@motionpicture/mvtk-reserve-service": "^1.3.0",
+    "@motionpicture/mvtk-reserve-service": "1.4.0",
     "abort-controller": "^3.0.0",
     "debug": "^3.2.5",
     "http-status": "^1.1.2",

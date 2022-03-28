@@ -6,7 +6,7 @@ import AbortController from 'abort-controller';
 import * as createDebug from 'debug';
 import * as fetch from 'isomorphic-fetch';
 
-const debug = createDebug('movieticket-reserve-api-abstract-client:transporters');
+const debug = createDebug('surfrock-abstract-sdk:transporters');
 // tslint:disable-next-line
 // const pkg = require('../package.json');
 
@@ -28,9 +28,10 @@ export class RequestError extends Error {
     public code: number;
     public errors: Error[];
 
+    // tslint:disable-next-line:no-single-line-block-comment
+    /* istanbul ignore next */
     constructor(message?: string) {
-        // tslint:disable-next-line:no-single-line-block-comment
-        super(message)/* istanbul ignore next */;
+        super(message);
         this.name = 'MovieticketReserveRequestError';
     }
 }
@@ -41,7 +42,7 @@ export class DefaultTransporter implements Transporter {
     /**
      * Default user agent.
      */
-    // public static readonly USER_AGENT: string = `movieticket-reserve-api-javascript-client/${pkg.version}`;
+    // public static readonly USER_AGENT: string = `surfrock-abstract-sdk/${pkg.version}`;
     public expectedStatusCodes: number[];
     constructor(expectedStatusCodes: number[]) {
         this.expectedStatusCodes = expectedStatusCodes;
@@ -89,9 +90,11 @@ export class DefaultTransporter implements Transporter {
                 // Only and only application/json responses should
                 // be decoded back to JSON, but there are cases API back-ends
                 // responds without proper content-type.
-                body = await response.clone().json();
+                body = await response.clone()
+                    .json();
             } catch (error) {
-                body = await response.clone().text();
+                body = await response.clone()
+                    .text();
             }
             if (typeof body === 'object' && body.error !== undefined) {
                 err = new RequestError(body.error.message);

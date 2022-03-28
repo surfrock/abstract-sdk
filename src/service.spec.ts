@@ -48,7 +48,10 @@ describe('fetch()', () => {
             { timeout: 10000 }
         );
 
-        sandbox.mock(service.options.auth).expects('fetch').once().resolves(response);
+        sandbox.mock(service.options.auth)
+            .expects('fetch')
+            .once()
+            .resolves(response);
 
         const result = await service.fetch(<any>{});
 
@@ -86,8 +89,11 @@ describe('fetch()', () => {
             endpoint: API_ENDPOINT
         });
 
-        sandbox.mock(service.options.auth).expects('fetch').once()
-            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`))).resolves(response);
+        sandbox.mock(service.options.auth)
+            .expects('fetch')
+            .once()
+            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`)))
+            .resolves(response);
 
         const result = await service.fetch(<any>options);
         assert.deepEqual(result, response);
@@ -111,8 +117,11 @@ describe('fetch()', () => {
             endpoint: API_ENDPOINT
         });
 
-        sandbox.mock(service.options.auth).expects('fetch').once()
-            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`))).resolves(response);
+        sandbox.mock(service.options.auth)
+            .expects('fetch')
+            .once()
+            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`)))
+            .resolves(response);
 
         const result = await service.fetch(<any>options);
 
@@ -126,7 +135,9 @@ describe('fetch()', () => {
             endpoint: API_ENDPOINT
         });
 
-        sandbox.mock(DefaultTransporter.prototype).expects('fetch').once();
+        sandbox.mock(DefaultTransporter.prototype)
+            .expects('fetch')
+            .once();
 
         await service.fetch(<any>options);
         sandbox.verify();
