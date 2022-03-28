@@ -2,18 +2,23 @@
 /**
  * transporters
  */
+import AbortController from 'abort-controller';
 import * as createDebug from 'debug';
 import * as fetch from 'isomorphic-fetch';
 
-const debug = createDebug('movieticket-reserve-api-abstract-client:transporters');
+const debug = createDebug('surfrock-abstract-sdk:transporters');
 // tslint:disable-next-line
 // const pkg = require('../package.json');
+
+export interface IRequestOptions {
+    timeout?: number;
+}
 
 /**
  * トランスポーター抽象クラス
  */
 export abstract class Transporter {
-    public abstract async fetch(url: string, options: RequestInit): Promise<Response>;
+    public abstract fetch(url: string, options: RequestInit, requestOptions: IRequestOptions): Promise<Response>;
 }
 export type IBodyResponseCallback = Promise<Response>;
 /**
@@ -23,9 +28,10 @@ export class RequestError extends Error {
     public code: number;
     public errors: Error[];
 
+    // tslint:disable-next-line:no-single-line-block-comment
+    /* istanbul ignore next */
     constructor(message?: string) {
-        // tslint:disable-next-line:no-single-line-block-comment
-        super(message)/* istanbul ignore next */;
+        super(message);
         this.name = 'MovieticketReserveRequestError';
     }
 }
@@ -36,7 +42,7 @@ export class DefaultTransporter implements Transporter {
     /**
      * Default user agent.
      */
-    // public static readonly USER_AGENT: string = `movieticket-reserve-api-javascript-client/${pkg.version}`;
+    // public static readonly USER_AGENT: string = `surfrock-abstract-sdk/${pkg.version}`;
     public expectedStatusCodes: number[];
     constructor(expectedStatusCodes: number[]) {
         this.expectedStatusCodes = expectedStatusCodes;
@@ -60,12 +66,17 @@ export class DefaultTransporter implements Transporter {
     /**
      * Makes a request with given options and invokes callback.
      */
-    public async fetch(url: string, options: RequestInit) {
+    public async fetch(url: string, options: RequestInit, requestOptions: IRequestOptions) {
         const fetchOptions = DefaultTransporter.CONFIGURE(options);
-        debug('fetching...', url, fetchOptions);
+        debug('fetching...', url, fetchOptions, requestOptions);
 
-        return fetch(url, fetchOptions).then(async (response) => this.wrapCallback(response));
+        // タイムアウト処理を追加
+        // return fetch(url, fetchOptions)
+        //     .then(async (response) => this.wrapCallback(response));
+        return fetchWithTimeout(url, fetchOptions, requestOptions)
+            .then(async (response) => this.wrapCallback(response));
     }
+
     /**
      * Wraps the response callback.
      */
@@ -79,9 +90,11 @@ export class DefaultTransporter implements Transporter {
                 // Only and only application/json responses should
                 // be decoded back to JSON, but there are cases API back-ends
                 // responds without proper content-type.
-                body = await response.clone().json();
+                body = await response.clone()
+                    .json();
             } catch (error) {
-                body = await response.clone().text();
+                body = await response.clone()
+                    .text();
             }
             if (typeof body === 'object' && body.error !== undefined) {
                 err = new RequestError(body.error.message);
@@ -97,4 +110,55 @@ export class DefaultTransporter implements Transporter {
         }
         throw err;
     }
+}
+
+async function fetchWithTimeout(url: string, fetchOptions: RequestInit, requestOptions: IRequestOptions) {
+    const requestInit: RequestInit = {
+        ...fetchOptions
+    };
+    let abortTimer: NodeJS.Timer | undefined;
+    if (typeof requestOptions.timeout === 'number' && requestOptions.timeout > 0) {
+        const controller = new AbortController();
+        abortTimer = setTimeout(
+            // tslint:disable-next-line:no-single-line-block-comment
+            /* istanbul ignore next */
+            () => {
+                debug('abortController aborting...');
+                controller.abort();
+            },
+            requestOptions.timeout
+        );
+        requestInit.signal = controller.signal;
+    }
+
+    let abortError: any;
+    let response: any;
+
+    try {
+        debug('fetching with timeout...', requestOptions.timeout, 'ms');
+        response = await fetch(url, requestInit);
+        debug('fetched with timeout', requestOptions.timeout, 'ms');
+    } catch (error) {
+        // tslint:disable-next-line:no-single-line-block-comment
+        /* istanbul ignore next */
+        debug('request was aborted', error.name);
+        // if (error instanceof fetch.AbortError) {
+        // }
+        // tslint:disable-next-line:no-single-line-block-comment
+        /* istanbul ignore next */
+        abortError = error;
+    } finally {
+        if (abortTimer !== undefined) {
+            debug('clearing abort timer...');
+            clearTimeout(abortTimer);
+        }
+    }
+
+    // tslint:disable-next-line:no-single-line-block-comment
+    /* istanbul ignore if */
+    if (abortError !== undefined) {
+        throw abortError;
+    }
+
+    return response;
 }

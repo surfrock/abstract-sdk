@@ -18,6 +18,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## v1.2.0 - 2022-03-28
+
+### Changed
+
+- サービスにタイムアウト設定オプションを追加
+- update mvtk-reserve-service
+- surfrock/abstract-sdkとしてリニューアル
+
 ## v1.1.0 - 2019-07-01
 
 ### Added

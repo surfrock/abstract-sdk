@@ -14,14 +14,6 @@ const API_ENDPOINT = 'https://localhost';
 
 describe('認証サービス', () => {
     let sandbox: sinon.SinonSandbox;
-    let authService: client.service.Auth;
-    before(() => {
-        const auth = new StubAuthClient();
-        authService = new client.service.Auth({
-            auth: auth,
-            endpoint: API_ENDPOINT
-        });
-    });
     beforeEach(() => {
         sandbox = sinon.createSandbox();
     });
@@ -29,9 +21,18 @@ describe('認証サービス', () => {
         sandbox.restore();
     });
     it('購入番号認証結果が期待通り', async () => {
+        const auth = new StubAuthClient();
+        const authService = new client.service.auth.AuthService({
+            auth: auth,
+            endpoint: API_ENDPOINT
+        });
         const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(authService).expects('fetch').once().resolves(await myMock());
+        const myMock = fetchMock.sandbox()
+            .mock('*', data);
+        sandbox.mock(authService)
+            .expects('fetch')
+            .once()
+            .resolves(await myMock());
         const result = await authService.purchaseNumberAuth(<any>{});
         assert.deepEqual(result, data);
         sandbox.verify();

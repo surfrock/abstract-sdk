@@ -40,12 +40,18 @@ describe('fetch()', () => {
         const response: any = { key: 'value' };
 
         const auth = new StubAuthClient();
-        const service = new Service({
-            auth: auth,
-            endpoint: API_ENDPOINT
-        });
+        const service = new Service(
+            {
+                auth: auth,
+                endpoint: API_ENDPOINT
+            },
+            { timeout: 10000 }
+        );
 
-        sandbox.mock(service.options.auth).expects('fetch').once().resolves(response);
+        sandbox.mock(service.options.auth)
+            .expects('fetch')
+            .once()
+            .resolves(response);
 
         const result = await service.fetch(<any>{});
 
@@ -54,7 +60,7 @@ describe('fetch()', () => {
     });
 
     it('認証不要な場合、transporterが正常であれば、レスポンスを取得できるはず', async () => {
-        const response: any = { key: 'value' };
+        const response: any = JSON.stringify({ key: 'value' });
 
         const service = new Service({
             endpoint: API_ENDPOINT,
@@ -62,7 +68,7 @@ describe('fetch()', () => {
         });
 
         const result = await service.fetch(<any>{});
-        assert.deepEqual(result.body, response);
+        assert.deepEqual(await result.json(), JSON.parse(response));
         sandbox.verify();
     });
 
@@ -83,8 +89,11 @@ describe('fetch()', () => {
             endpoint: API_ENDPOINT
         });
 
-        sandbox.mock(service.options.auth).expects('fetch').once()
-            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`))).resolves(response);
+        sandbox.mock(service.options.auth)
+            .expects('fetch')
+            .once()
+            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`)))
+            .resolves(response);
 
         const result = await service.fetch(<any>options);
         assert.deepEqual(result, response);
@@ -108,8 +117,11 @@ describe('fetch()', () => {
             endpoint: API_ENDPOINT
         });
 
-        sandbox.mock(service.options.auth).expects('fetch').once()
-            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`))).resolves(response);
+        sandbox.mock(service.options.auth)
+            .expects('fetch')
+            .once()
+            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`)))
+            .resolves(response);
 
         const result = await service.fetch(<any>options);
 
@@ -123,7 +135,9 @@ describe('fetch()', () => {
             endpoint: API_ENDPOINT
         });
 
-        sandbox.mock(DefaultTransporter.prototype).expects('fetch').once();
+        sandbox.mock(DefaultTransporter.prototype)
+            .expects('fetch')
+            .once();
 
         await service.fetch(<any>options);
         sandbox.verify();

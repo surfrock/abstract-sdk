@@ -1,7 +1,7 @@
 import * as qs from 'qs';
 
 import { AuthClient } from './auth/authClient';
-import { DefaultTransporter, Transporter } from './transporters';
+import { DefaultTransporter, IRequestOptions, Transporter } from './transporters';
 
 /**
  * service constructor options
@@ -38,8 +38,15 @@ export interface IFetchOptions {
  */
 export class Service {
     public options: IOptions;
-    constructor(options: IOptions) {
+    public requestOptions: IRequestOptions;
+    constructor(options: IOptions, requestOptions?: IRequestOptions) {
         this.options = options;
+        this.requestOptions = {};
+        // tslint:disable-next-line:no-single-line-block-comment
+        /* istanbul ignore else */
+        if (requestOptions !== undefined) {
+            this.requestOptions = { ...this.requestOptions, ...requestOptions };
+        }
     }
     /**
      * Create and send request to API
@@ -74,12 +81,12 @@ export class Service {
 
         // create request (using authClient or otherwise and return request obj)
         if (this.options.auth !== undefined) {
-            return this.options.auth.fetch(url, fetchOptions, options.expectedStatusCodes);
+            return this.options.auth.fetch(url, fetchOptions, this.requestOptions, options.expectedStatusCodes);
         } else {
             const transporter =
                 (this.options.transporter !== undefined) ? this.options.transporter : new DefaultTransporter(options.expectedStatusCodes);
 
-            return transporter.fetch(url, fetchOptions);
+            return transporter.fetch(url, fetchOptions, this.requestOptions);
         }
     }
 }

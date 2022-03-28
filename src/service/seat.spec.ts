@@ -14,15 +14,7 @@ const API_ENDPOINT = 'https://localhost';
 
 describe('着券サービス', () => {
     let sandbox: sinon.SinonSandbox;
-    let seatService: client.service.Seat;
 
-    before(() => {
-        const auth = new StubAuthClient();
-        seatService = new client.service.Seat({
-            auth: auth,
-            endpoint: API_ENDPOINT
-        });
-    });
     beforeEach(() => {
         sandbox = sinon.createSandbox();
     });
@@ -31,9 +23,18 @@ describe('着券サービス', () => {
     });
 
     it('着券結果が期待通り', async () => {
+        const auth = new StubAuthClient();
+        const seatService = new client.service.seat.SeatService({
+            auth: auth,
+            endpoint: API_ENDPOINT
+        });
         const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(seatService).expects('fetch').once().resolves(await myMock());
+        const myMock = fetchMock.sandbox()
+            .mock('*', data);
+        sandbox.mock(seatService)
+            .expects('fetch')
+            .once()
+            .resolves(await myMock());
         const result = await seatService.seatInfoSync(<any>{});
         assert.deepEqual(result, data);
         sandbox.verify();

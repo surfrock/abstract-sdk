@@ -4,13 +4,13 @@
  */
 import { AuthClient } from './auth/authClient';
 
-import { AuthService } from './service/auth';
-import { SeatService } from './service/seat';
+import * as authService from './service/auth';
+import * as seatService from './service/seat';
 import * as transporters from './transporters';
 
-import * as mvtk from '@motionpicture/mvtk-reserve-service';
+// import * as mvtk from '@motionpicture/mvtk-reserve-service';
 
-export import mvtk = mvtk;
+// export import mvtk = mvtk;
 export import transporters = transporters;
 
 /**
@@ -21,13 +21,6 @@ export abstract class Auth extends AuthClient { }
  * サービスモジュール
  */
 export namespace service {
-    /**
-     * 注文サービス
-     */
-    // tslint:disable-next-line:no-shadowed-variable
-    export class Auth extends AuthService { }
-    /**
-     * 組織サービス
-     */
-    export class Seat extends SeatService { }
+    export import auth = authService;
+    export import seat = seatService;
 }
