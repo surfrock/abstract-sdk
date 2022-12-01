@@ -112,7 +112,7 @@ export class DefaultTransporter implements Transporter {
     }
 }
 
-async function fetchWithTimeout(url: string, fetchOptions: RequestInit, requestOptions: IRequestOptions) {
+export async function fetchWithTimeout(url: string, fetchOptions: RequestInit, requestOptions: IRequestOptions) {
     const requestInit: RequestInit = {
         ...fetchOptions
     };
