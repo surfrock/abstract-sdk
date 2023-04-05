@@ -10,10 +10,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
-- transportersにfetchWithTimeoutをエクスポート
-- update compilerOptions: ```"exactOptionalPropertyTypes": true```
-- update compilerOptions: ```"target": "es6"```
-
 ### Deprecated
 
 ### Removed
@@ -21,6 +17,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+
+## v1.3.0 - 2023-04-05
+
+### Changed
+
+- transportersにfetchWithTimeoutをエクスポート
+- update compilerOptions: ```"exactOptionalPropertyTypes": true```
+- update compilerOptions: ```"target": "es6"```
 
 ## v1.2.0 - 2022-03-28
 
