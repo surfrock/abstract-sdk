@@ -7,13 +7,9 @@
         "diagnostics": false,
         "disableSizeLimit": false,
         "emitDecoratorMetadata": true,
+        "exactOptionalPropertyTypes": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
-        "lib": [
-            "dom",
-            "es2015",
-            "es5"
-        ],
         "inlineSourceMap": false,
         "inlineSources": false,
         "isolatedModules": false,
@@ -41,7 +37,7 @@
         "stripInternal": false,
         "suppressExcessPropertyErrors": false,
         "suppressImplicitAnyIndexErrors": false,
-        "target": "es5",
+        "target": "es6",
         "watch": false
     },
     "include": [

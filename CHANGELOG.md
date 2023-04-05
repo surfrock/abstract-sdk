@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Changed
 
 - transportersにfetchWithTimeoutをエクスポート
+- update compilerOptions: ```"exactOptionalPropertyTypes": true```
+- update compilerOptions: ```"target": "es6"```
 
 ### Deprecated
 
