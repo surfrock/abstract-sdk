@@ -64,7 +64,7 @@
     "fetch-mock": "^6.5.2",
     "http-server": "^0.10.0",
     "mocha": "^5.2.0",
-    "nock": "^9.3.2",
+    "nock": "13.5.4",
     "nyc": "15.1.0",
     "open": "0.0.5",
     "power-assert": "^1.6.1",

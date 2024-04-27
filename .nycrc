@@ -11,8 +11,7 @@
         "src/**/*.ts"
     ],
     "exclude": [
-        "**/*.spec.ts",
-        "src/transporters.ts"
+        "**/*.spec.ts"
     ],
     "reporter": [
         "lcov",
