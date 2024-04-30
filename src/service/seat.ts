@@ -1,21 +1,11 @@
 import { OK } from 'http-status';
 
-import * as mvtk from '@motionpicture/mvtk-reserve-service';
+import { factory as mvtkFactory } from '@motionpicture/mvtk-reserve-service';
 import { Service } from '../service';
 
 export namespace factory {
-    export import DeleteFlag = mvtk.services.seat.seatInfoSync.DeleteFlag;
-    export import IInvalidPurchaseNumberInfo = mvtk.services.seat.seatInfoSync.IInvalidPurchaseNumberInfo;
-    export import IKnyknrNoInfo = mvtk.services.seat.seatInfoSync.IKnyknrNoInfo;
-    export import ISeatInfoSyncIn = mvtk.services.seat.seatInfoSync.ISeatInfoSyncIn;
-    export import ISeatInfoSyncResult = mvtk.services.seat.seatInfoSync.ISeatInfoSyncResult;
-    export import IInvalidTicketDetailInfo = mvtk.services.seat.seatInfoSync.IInvalidTicketDetailInfo;
-    export import IInvalidTicketTypeInfo = mvtk.services.seat.seatInfoSync.IInvalidTicketTypeInfo;
-    export import InvalidityCategory = mvtk.services.seat.seatInfoSync.InvalidityCategory;
-    export import ReservationResult = mvtk.services.seat.seatInfoSync.ReservationResult;
-    export import ReserveDeviceType = mvtk.services.seat.seatInfoSync.ReserveDeviceType;
-
-    export import seatInfoSyncCancel = mvtk.services.seat.seatInfoSyncCancel;
+    export import seatInfoSync = mvtkFactory.service.seat.seatInfoSync;
+    export import seatInfoSyncCancel = mvtkFactory.service.seat.seatInfoSyncCancel;
 }
 
 /**
@@ -25,7 +15,7 @@ export class SeatService extends Service {
     /**
      * 座席指定情報連携
      */
-    public async seatInfoSync(params: factory.ISeatInfoSyncIn): Promise<factory.ISeatInfoSyncResult> {
+    public async seatInfoSync(params: factory.seatInfoSync.ISeatInfoSyncIn): Promise<factory.seatInfoSync.ISeatInfoSyncResult> {
         return this.fetch({
             uri: '/seat/seatInfoSync',
             method: 'POST',
