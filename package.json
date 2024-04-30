@@ -76,7 +76,7 @@
     "typescript": "4.6.4"
   },
   "dependencies": {
-    "@motionpicture/mvtk-reserve-service": "1.6.0-alpha.1",
+    "@motionpicture/mvtk-reserve-service": "1.6.0-alpha.2",
     "abort-controller": "^3.0.0",
     "debug": "^3.2.5",
     "http-status": "^1.1.2",
