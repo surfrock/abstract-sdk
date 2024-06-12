@@ -116,7 +116,7 @@ export async function fetchWithTimeout(url: string, fetchOptions: RequestInit, r
     const requestInit: RequestInit = {
         ...fetchOptions
     };
-    let abortTimer: NodeJS.Timer | undefined;
+    let abortTimer: NodeJS.Timeout | undefined;
     if (typeof requestOptions.timeout === 'number' && requestOptions.timeout > 0) {
         const controller = new AbortController();
         abortTimer = setTimeout(
@@ -128,7 +128,7 @@ export async function fetchWithTimeout(url: string, fetchOptions: RequestInit, r
             },
             requestOptions.timeout
         );
-        requestInit.signal = controller.signal;
+        requestInit.signal = <any>controller.signal;
     }
 
     let abortError: any;

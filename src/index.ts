@@ -2,15 +2,13 @@
 /**
  * API Service Library for Javascript
  */
+import { factory } from '@surfrock/soap-parser';
 import { AuthClient } from './auth/authClient';
-
 import * as authService from './service/auth';
 import * as seatService from './service/seat';
 import * as transporters from './transporters';
 
-// import * as mvtk from '@motionpicture/mvtk-reserve-service';
-
-// export import mvtk = mvtk;
+export import factory = factory;
 export import transporters = transporters;
 
 /**

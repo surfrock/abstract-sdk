@@ -22,7 +22,3 @@ npm install @surfrock/abstract-sdk
 | Name    | Required | Value                   | Purpose |
 | ------- | -------- | ----------------------- | ------- |
 | `DEBUG` | false    | surfrock-abstract-sdk:* | Debug   |
-
-## License
-
-ISC

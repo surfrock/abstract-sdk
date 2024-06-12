@@ -1,31 +1,39 @@
-import { OK } from 'http-status';
-
-import * as mvtk from '@motionpicture/mvtk-reserve-service';
+import { factory as SFR } from '@surfrock/soap-parser';
 import { Service } from '../service';
+import { HttpStatus } from './httpStatus';
 
 export namespace factory {
-    export import DeleteFlag = mvtk.services.seat.seatInfoSync.DeleteFlag;
-    export import IInvalidPurchaseNumberInfo = mvtk.services.seat.seatInfoSync.IInvalidPurchaseNumberInfo;
-    export import IKnyknrNoInfo = mvtk.services.seat.seatInfoSync.IKnyknrNoInfo;
-    export import ISeatInfoSyncIn = mvtk.services.seat.seatInfoSync.ISeatInfoSyncIn;
-    export import ISeatInfoSyncResult = mvtk.services.seat.seatInfoSync.ISeatInfoSyncResult;
-    export import IInvalidTicketDetailInfo = mvtk.services.seat.seatInfoSync.IInvalidTicketDetailInfo;
-    export import IInvalidTicketTypeInfo = mvtk.services.seat.seatInfoSync.IInvalidTicketTypeInfo;
-    export import InvalidityCategory = mvtk.services.seat.seatInfoSync.InvalidityCategory;
-    export import ReservationResult = mvtk.services.seat.seatInfoSync.ReservationResult;
-    export import ReserveDeviceType = mvtk.services.seat.seatInfoSync.ReserveDeviceType;
+    export import seatInfoSync = SFR.service.seat.seatInfoSync;
+    export import seatInfoSyncCancel = SFR.service.seat.seatInfoSyncCancel;
 }
 
 /**
  * 着券サービス
  */
 export class SeatService extends Service {
-    public async seatInfoSync(params: factory.ISeatInfoSyncIn): Promise<factory.ISeatInfoSyncResult> {
+    /**
+     * 座席指定情報連携
+     */
+    public async seatInfoSync(params: factory.seatInfoSync.ISeatInfoSyncIn): Promise<factory.seatInfoSync.ISeatInfoSyncResult> {
         return this.fetch({
             uri: '/seat/seatInfoSync',
             method: 'POST',
             body: params,
-            expectedStatusCodes: [OK]
+            expectedStatusCodes: [HttpStatus.OK]
+        })
+            .then(async (response) => response.json());
+    }
+    /**
+     * 座席開放連携
+     */
+    public async seatInfoSyncCancel(
+        params: factory.seatInfoSyncCancel.ISeatInfoSyncCancelIn
+    ): Promise<factory.seatInfoSyncCancel.ISeatInfoSyncCancelResult> {
+        return this.fetch({
+            uri: '/seat/seatInfoSyncCancel',
+            method: 'POST',
+            body: params,
+            expectedStatusCodes: [HttpStatus.OK]
         })
             .then(async (response) => response.json());
     }
