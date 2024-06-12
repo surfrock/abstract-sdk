@@ -2,7 +2,7 @@
 /**
  * API Service Library for Javascript
  */
-import { factory } from '@motionpicture/mvtk-reserve-service';
+import { factory } from '@surfrock/soap-parser';
 import { AuthClient } from './auth/authClient';
 import * as authService from './service/auth';
 import * as seatService from './service/seat';

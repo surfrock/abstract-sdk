@@ -1,11 +1,10 @@
-import { OK } from 'http-status';
-
-import { factory as mvtkFactory } from '@motionpicture/mvtk-reserve-service';
+import { factory as SFR } from '@surfrock/soap-parser';
 import { Service } from '../service';
+import { HttpStatus } from './httpStatus';
 
 export namespace factory {
-    export import seatInfoSync = mvtkFactory.service.seat.seatInfoSync;
-    export import seatInfoSyncCancel = mvtkFactory.service.seat.seatInfoSyncCancel;
+    export import seatInfoSync = SFR.service.seat.seatInfoSync;
+    export import seatInfoSyncCancel = SFR.service.seat.seatInfoSyncCancel;
 }
 
 /**
@@ -20,7 +19,7 @@ export class SeatService extends Service {
             uri: '/seat/seatInfoSync',
             method: 'POST',
             body: params,
-            expectedStatusCodes: [OK]
+            expectedStatusCodes: [HttpStatus.OK]
         })
             .then(async (response) => response.json());
     }
@@ -34,7 +33,7 @@ export class SeatService extends Service {
             uri: '/seat/seatInfoSyncCancel',
             method: 'POST',
             body: params,
-            expectedStatusCodes: [OK]
+            expectedStatusCodes: [HttpStatus.OK]
         })
             .then(async (response) => response.json());
     }

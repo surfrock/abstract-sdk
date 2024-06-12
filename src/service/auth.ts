@@ -1,10 +1,9 @@
-import { OK } from 'http-status';
-
-import { factory as mvtkFactory } from '@motionpicture/mvtk-reserve-service';
+import { factory as SFR } from '@surfrock/soap-parser';
 import { Service } from '../service';
+import { HttpStatus } from './httpStatus';
 
 export namespace factory {
-    export import purchaseNumberAuth = mvtkFactory.service.auth.purchaseNumberAuth;
+    export import purchaseNumberAuth = SFR.service.auth.purchaseNumberAuth;
 }
 
 /**
@@ -21,7 +20,7 @@ export class AuthService extends Service {
             uri: '/auth/purchaseNumberAuth',
             method: 'POST',
             body: params,
-            expectedStatusCodes: [OK]
+            expectedStatusCodes: [HttpStatus.OK]
         })
             .then(async (response) => response.json());
     }
